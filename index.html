@@ -868,8 +868,8 @@ footer{background:var(--band-bg);color:var(--band-fg)}
   /* uma demonstração única ao abrir: o queijo vai do dia 1 ao 90; com a aba em segundo plano, fica no dia 90 */
   function sweepOnce(){
     if(reduce||touched) return;
-    var t0=null; setDay(1);
-    requestAnimationFrame(function sweep(t){ if(touched) return; if(!t0) t0=t; var p=Math.min((t-t0)/2600,1); setDay(1+89*(1-Math.pow(1-p,3))); if(p<1) requestAnimationFrame(sweep); });
+    var t0=null;
+    requestAnimationFrame(function sweep(t){ if(touched) return; if(!t0){ t0=t; setDay(1); } var p=Math.min((t-t0)/2600,1); setDay(1+89*(1-Math.pow(1-p,3))); if(p<1) requestAnimationFrame(sweep); });
   }
   if(!reduce){
     if(document.visibilityState==='visible') setTimeout(sweepOnce,600);

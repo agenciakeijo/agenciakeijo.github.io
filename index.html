@@ -269,6 +269,33 @@ section{padding-block:80px}
 .note-ill{font-size:12px;color:var(--muted);font-style:italic}
 .span2{grid-column:1/-1}
 
+/* ---------- PORTFÓLIO ---------- */
+.pf-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.pf-filters button{font:700 14px/1 var(--f-body);padding:11px 18px;border-radius:var(--r-pill);border:2px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;transition:background-color .2s,color .2s}
+.pf-filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.pf-filters button span{opacity:.6;font-weight:600;margin-left:4px}
+.pf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));grid-auto-flow:dense;gap:14px}
+.pf-item{position:relative;border-radius:var(--r-md);overflow:hidden;background:var(--line);aspect-ratio:3/2;border:0;padding:0;cursor:zoom-in;display:block;width:100%;text-align:left;color:#FFF4D6}
+@media (min-width:900px){.pf-item.wide{grid-column:span 2}}
+.pf-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.pf-item:hover img,.pf-item:focus-visible img{transform:scale(1.05)}
+.pf-cap{position:absolute;inset:auto 0 0 0;padding:40px 16px 14px;background:linear-gradient(transparent,rgba(10,10,10,.82));display:grid;gap:2px}
+.pf-cap b{font-family:var(--f-display);font-weight:800;font-size:18px;line-height:1.15}
+.pf-cap small{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+.pf-item[hidden]{display:none!important}
+.pf-note{margin-top:18px;font-size:13px;color:var(--muted)}
+.lb{position:fixed;inset:0;z-index:30;background:rgba(10,10,10,.92);display:grid;grid-template-rows:1fr auto;padding:calc(16px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));color:#FFF4D6;opacity:0;pointer-events:none;transition:opacity .25s}
+.lb.open{opacity:1;pointer-events:auto}
+.lb figure{margin:0;display:grid;place-items:center;min-height:0}
+.lb img{max-width:100%;max-height:78vh;border-radius:12px;object-fit:contain}
+.lb .bar2{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:14px}
+.lb .bar2 p{font-weight:600}
+.lb .bar2 p b{font-family:var(--f-display);font-weight:800;font-size:18px;display:block}
+.lb button{width:48px;height:48px;border-radius:50%;border:2px solid #FFF4D6;background:transparent;color:#FFF4D6;font-size:20px;cursor:pointer;flex:none}
+.lb button:hover{background:#FFF4D6;color:#141414}
+.lb .x{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px))}
+.lb .nav{display:flex;gap:10px}
+
 /* ---------- EQUIPE ---------- */
 .team{display:grid;gap:16px}
 @media (min-width:800px){.team{grid-template-columns:repeat(3,1fr)}}
@@ -403,7 +430,7 @@ a,button,summary{-webkit-tap-highlight-color:transparent}
         <p class="lede">Planejamento, conteúdo e design para marcas que querem crescer nas redes com consistência. A gente afina a estratégia. Você colhe o resultado.</p>
         <div class="ctas">
           <a class="btn btn-main" href="#raio-x">Pedir Raio-X gratuito <span class="arr">→</span></a>
-          <a class="btn btn-ghost" href="#metodo">Ver o método</a>
+          <a class="btn btn-ghost" href="#trabalhos">Ver trabalhos</a>
         </div>
       </div>
       <aside class="ficha" aria-label="Ficha de afinação">
@@ -468,6 +495,19 @@ a,button,summary{-webkit-tap-highlight-color:transparent}
       </div>
       <div class="car-dots" id="dots" role="group" aria-label="Escolher formato"></div>
       <button type="button" class="car-pause" id="auto" aria-pressed="false">Pausar rotação automática</button>
+    </div>
+  </section>
+
+  <section id="trabalhos">
+    <div class="wrap">
+      <div class="sec-head rise">
+        <p class="label">Trabalhos da equipe</p>
+        <h2>Já fizemos marca ganhar torcida.</h2>
+        <p>Uma seleção do que o João criou antes da Keijo existir, para eventos, música, esporte e marcas. Toque em uma peça para ampliar.</p>
+      </div>
+      <div class="pf-filters" id="pfFilters" role="group" aria-label="Filtrar trabalhos"></div>
+      <div class="pf-grid" id="pfGrid"></div>
+      <p class="pf-note">Trabalhos autorais de João Vitor Ferraz como designer freelancer. Os nomes citados são de quem encomendou cada peça.</p>
     </div>
   </section>
 
@@ -610,6 +650,12 @@ a,button,summary{-webkit-tap-highlight-color:transparent}
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Trabalho ampliado" aria-hidden="true">
+  <button class="x" type="button" id="lbClose" aria-label="Fechar">✕</button>
+  <figure><img id="lbImg" alt=""></figure>
+  <div class="bar2"><p id="lbCap"></p><div class="nav"><button type="button" id="lbPrev" aria-label="Anterior">←</button><button type="button" id="lbNext" aria-label="Próximo">→</button></div></div>
+</div>
+
 <script>
 (function(){
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -746,6 +792,53 @@ a,button,summary{-webkit-tap-highlight-color:transparent}
       var el = document.querySelector(p[0]); el.dataset.k = p[1]; bio.observe(el);
     });
   }
+
+  /* ---------- portfólio ---------- */
+  var F='https://live.staticflickr.com/65535/';
+  var WORKS=[
+    {t:'Villa Nova A.C.',d:'Redes sociais do clube',c:'Esporte',u:F+'53008829433_9abeea7893_b.jpg',wide:1},
+    {t:'Réveillon da Porr@',d:'Campanha de redes sociais',c:'Eventos',u:F+'53007752812_3f4227809d_b.jpg'},
+    {t:'go be',d:'Identidade visual fitness',c:'Marcas',u:F+'53036597668_dcdeaf2a21_b.jpg'},
+    {t:'Pitty · ACNXX Anos',d:'Coleção de camisetas',c:'Música',u:F+'53036126181_ce95fec78b_b.jpg'},
+    {t:'Planeta Ponte Nova',d:'Redes sociais do festival',c:'Eventos',u:F+'53008510389_01cca2e2a9_b.jpg',wide:1},
+    {t:'Atlética Vikings',d:'Logo e mascote',c:'Esporte',u:F+'49382211327_3ebb1662b3_b.jpg'},
+    {t:'Brasero Burger & BBQ',d:'Logo',c:'Marcas',u:F+'49907086088_52c8a9a420_b.jpg'},
+    {t:'Ego Kill Talent',d:'Kit de redes sociais',c:'Música',u:F+'53008346336_366b94e535_b.jpg'},
+    {t:'Villa Nova A.C.',d:'Backdrop de patrocinadores',c:'Esporte',u:F+'53008727590_71cf1b6687_b.jpg'},
+    {t:'Bloco Vai Ter Auê',d:'Logo de bloco de carnaval',c:'Eventos',u:F+'49382015291_c21a1688e2_b.jpg'},
+    {t:'Pitty · ACNXX Anos',d:'Backdrop do show',c:'Música',u:F+'53036300489_c6e5aae4d0_b.jpg',wide:1},
+    {t:'Gabriela Beachwear',d:'Cartão de encomenda',c:'Marcas',u:F+'49382209617_08bef2a01d_b.jpg'}
+  ];
+  var pfGrid=document.getElementById('pfGrid'), pfF=document.getElementById('pfFilters'), cats=['Todos','Esporte','Eventos','Música','Marcas'];
+  WORKS.forEach(function(w,i){
+    var b=document.createElement('button'); b.type='button'; b.className='pf-item rise'+(w.wide?' wide':''); b.dataset.c=w.c; b.dataset.i=i;
+    b.setAttribute('aria-label','Ampliar: '+w.t+', '+w.d);
+    b.innerHTML='<img src="'+w.u+'" alt="'+w.t+' — '+w.d+'" loading="lazy" decoding="async"><span class="pf-cap"><small>'+w.c+'</small><b>'+w.t+'</b><span style="font-size:14px">'+w.d+'</span></span>';
+    b.addEventListener('click',function(){ openLb(i); });
+    pfGrid.appendChild(b);
+  });
+  cats.forEach(function(c){
+    var n=c==='Todos'?WORKS.length:WORKS.filter(function(w){return w.c===c;}).length;
+    var b=document.createElement('button'); b.type='button'; b.setAttribute('aria-pressed',c==='Todos'?'true':'false'); b.innerHTML=c+'<span>'+n+'</span>';
+    b.addEventListener('click',function(){
+      [].forEach.call(pfF.children,function(x){x.setAttribute('aria-pressed','false');}); b.setAttribute('aria-pressed','true');
+      [].forEach.call(pfGrid.children,function(it){ it.hidden = !(c==='Todos'||it.dataset.c===c); });
+    });
+    pfF.appendChild(b);
+  });
+  var lb=document.getElementById('lb'), lbImg=document.getElementById('lbImg'), lbCap=document.getElementById('lbCap'), lbI=0, lastFocus=null;
+  function visible(){ return WORKS.map(function(w,i){return i;}).filter(function(i){ return !pfGrid.children[i].hidden; }); }
+  function showLb(i){ var w=WORKS[i]; lbI=i; lbImg.src=w.u; lbImg.alt=w.t+' — '+w.d; lbCap.innerHTML='<b>'+w.t+'</b>'+w.d+' · '+w.c; }
+  function openLb(i){ lastFocus=document.activeElement; showLb(i); lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); document.getElementById('lbClose').focus(); document.body.style.overflow='hidden'; }
+  function closeLb(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); document.body.style.overflow=''; if(lastFocus) lastFocus.focus(); }
+  function step(d){ var v=visible(), k=v.indexOf(lbI); showLb(v[(k+d+v.length)%v.length]); }
+  document.getElementById('lbClose').addEventListener('click',closeLb);
+  document.getElementById('lbPrev').addEventListener('click',function(){step(-1);});
+  document.getElementById('lbNext').addEventListener('click',function(){step(1);});
+  lb.addEventListener('click',function(e){ if(e.target===lb||e.target.tagName==='FIGURE') closeLb(); });
+  document.addEventListener('keydown',function(e){ if(!lb.classList.contains('open')) return; if(e.key==='Escape') closeLb(); if(e.key==='ArrowRight') step(1); if(e.key==='ArrowLeft') step(-1); });
+  var tx=null; lb.addEventListener('touchstart',function(e){ tx=e.touches[0].clientX; },{passive:true});
+  lb.addEventListener('touchend',function(e){ if(tx===null) return; var dx=e.changedTouches[0].clientX-tx; if(Math.abs(dx)>50) step(dx<0?1:-1); tx=null; });
 
   /* ---------- formulário → WhatsApp ---------- */
   var form=document.getElementById('lead'), err=document.getElementById('err'), result=document.getElementById('result'), wa=document.getElementById('wa');

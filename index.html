@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#F5BF00">
+<meta property="og:title" content="Keijo Digital">
+<meta property="og:description" content="Planejamento, conteúdo e design para marcas que querem crescer nas redes. Peça seu Raio-X gratuito.">
+<meta property="og:url" content="https://agenciakeijo.github.io/">
+<meta property="og:type" content="website">
+<title>Keijo Digital</title>
+<meta name="description" content="Keijo: planejamento, conteúdo e design para marcas que querem crescer nas redes. Peça seu Raio-X gratuito.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@500;700;800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: faixas de largura total; coluna de 1120px. A página tem 5 esquemas de cor próprios (trocados pela Barra do logo),
+   por isso não segue o tema claro/escuro do sistema: cada esquema define todas as cores. */
+:root{
+  --hero-bg:#F5BF00; --hero-fg:#141414; --hero-soft:rgba(20,20,20,.12);
+  --bg:#FFF4D6; --ink:#141414; --muted:#5E5747; --raised:#FFFFFF; --line:#E6DAB8;
+  --band-bg:#141414; --band-fg:#FFF4D6; --band-muted:#B8AF98; --band-card:#1F1E1B;
+  --accent:#F5BF00; --accent-ink:#141414; --label:#C8321A;
+  --offer-bg:#F5BF00; --offer-fg:#141414;
+  --form-bg:#FFF4D6; --form-fg:#141414; --field:#FFFFFF; --field-line:#D9CCA6;
+  --c1:#141414; --c2:#24456B; --c3:#C8321A; --c4:#D9A600;
+  --f-display:"Parkinsans","Arial Black",system-ui,sans-serif;
+  --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r-md:18px; --r-pill:999px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body,.hero,.band,.offer,form,.svc-slide,.chart-card,.person,.marquee,footer,.btn,.ficha{transition:background-color .6s ease,color .6s ease,border-color .6s ease,box-shadow .6s ease}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@media (min-width:720px){.wrap{padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}}
+h1,h2,h3{font-family:var(--f-display);font-weight:800;letter-spacing:-.025em;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--label);outline-offset:3px;border-radius:6px}
+.label{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--label)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:700 16px/1 var(--f-body);text-decoration:none;border:0;cursor:pointer;border-radius:var(--r-pill);padding:16px 26px;transition:transform .2s ease,background-color .6s,color .6s}
+.btn:hover{transform:translateY(-2px)}
+.btn .arr{display:inline-block;transition:transform .2s}
+.btn:hover .arr{transform:translateX(4px)}
+
+/* ---------- HERO ---------- */
+.hero{background:var(--hero-bg);color:var(--hero-fg);position:relative;overflow:hidden}
+.hero .btn-main{background:var(--hero-fg);color:var(--hero-bg)}
+.hero .btn-ghost{background:transparent;color:var(--hero-fg);box-shadow:inset 0 0 0 2px var(--hero-fg)}
+.hero .label{color:var(--hero-fg);opacity:.8}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:20px}
+.topbar .btn{padding:12px 18px;font-size:14px}
+
+/* logo + Barra interativa */
+.logo-wrap{position:relative;width:132px;flex:none}
+.logo-wrap svg{display:block;width:100%;height:auto;overflow:visible}
+.logo-wrap .rest,.logo-wrap .bar{fill:var(--hero-fg);transition:fill .6s}
+.logo-wrap .knob{fill:var(--hero-bg);transition:transform .45s cubic-bezier(.6,-0.3,.3,1.4),fill .6s;transform:translateX(0)}
+.logo-wrap.on .knob{transform:translateX(560px)}
+.bar-btn{position:absolute;left:50.4%;top:-4%;width:21.4%;height:24%;border:0;padding:0;background:transparent;cursor:pointer;border-radius:var(--r-pill)}
+.bar-btn:hover + svg .knob,.bar-btn:focus-visible + svg .knob{fill:var(--accent)}
+.hint{position:absolute;left:calc(50.4% + 34px);top:-30px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;background:var(--hero-fg);color:var(--hero-bg);padding:5px 10px;border-radius:var(--r-pill);opacity:0;transform:translateY(4px);pointer-events:none;transition:opacity .25s,transform .25s}
+.logo-wrap:hover .hint,.logo-wrap.show-hint .hint{opacity:1;transform:none}
+
+.hero-grid{display:grid;gap:44px;padding-block:28px 72px}
+@media (min-width:900px){.hero-grid{grid-template-columns:1.1fr .9fr;align-items:center;padding-block:40px 96px}}
+.hero h1{font-size:clamp(48px,8.6vw,100px);line-height:.95}
+.rot{display:inline-grid;vertical-align:top}
+.rot span{grid-area:1/1;transition:transform .5s cubic-bezier(.5,0,.2,1),opacity .4s}
+.rot span:not(.cur){opacity:0;transform:translateY(55%)}
+.rot span.out{opacity:0;transform:translateY(-55%)}
+.hero .lede{font-size:clamp(18px,2.2vw,21px);max-width:36ch;margin-top:22px;font-weight:500}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+
+.blob{position:absolute;border-radius:var(--r-pill);background:var(--hero-soft);pointer-events:none}
+.blob.b1{width:340px;height:100px;right:-80px;top:120px;animation:drift 9s ease-in-out infinite}
+.blob.b2{width:200px;height:60px;left:42%;bottom:28px;animation:drift 11s ease-in-out infinite reverse}
+@keyframes drift{50%{transform:translateX(-40px)}}
+
+/* ficha com barra de maturação animada */
+.ficha{background:var(--form-bg);color:var(--form-fg);border-radius:var(--r-md);padding:22px;box-shadow:10px 10px 0 var(--hero-fg);max-width:430px;width:100%;transform:rotate(-1.5deg);justify-self:start}
+@media (min-width:900px){.ficha{justify-self:end}}
+.ficha .fh{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid currentColor;padding-bottom:10px;margin-bottom:14px}
+.ficha .fh b{font-family:var(--f-display);font-size:20px}
+.ficha dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:15px}
+.ficha dt{font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding-top:3px}
+.ficha dd{margin:0}
+.mat{margin-top:16px}
+.mat .row{display:flex;justify-content:space-between;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.mat .track{height:14px;border-radius:var(--r-pill);background:var(--field-line);margin-top:6px;overflow:hidden}
+.mat .fill{height:100%;width:100%;border-radius:var(--r-pill);background:var(--c3);transform-origin:left;animation:mature 6s ease-in-out infinite}
+@keyframes mature{0%{transform:scaleX(.04)}70%,100%{transform:scaleX(1)}}
+
+/* ---------- MARQUEE ---------- */
+.marquee{background:var(--accent);color:var(--accent-ink);overflow:hidden;padding-block:16px;border-block:2px solid var(--ink)}
+.marquee .track{display:flex;gap:28px;width:max-content;animation:marq 28s linear infinite;font-family:var(--f-display);font-weight:800;font-size:22px;white-space:nowrap}
+.marquee .track span{display:inline-flex;align-items:center;gap:28px}
+.marquee .track span::after{content:"";width:42px;height:13px;border-radius:9px;background:currentColor;display:inline-block}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ---------- SEÇÕES ---------- */
+section{padding-block:80px}
+@media (min-width:900px){section{padding-block:112px}}
+.sec-head{display:grid;gap:14px;max-width:760px;margin-bottom:44px}
+.sec-head h2{font-size:clamp(32px,5vw,56px);line-height:1}
+.sec-head p{color:var(--muted);font-size:19px;max-width:58ch}
+
+/* números */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:24px 16px;margin-top:56px}
+@media (min-width:800px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{border-top:3px solid var(--ink);padding-top:14px}
+.stat b{display:block;font-family:var(--f-display);font-weight:800;font-size:clamp(40px,6vw,64px);line-height:1;font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:15px}
+
+.pains{display:grid;gap:16px}
+@media (min-width:800px){.pains{grid-template-columns:repeat(3,1fr)}}
+.pain{border-top:3px solid var(--ink);padding-top:18px;display:grid;gap:8px}
+.pain h3{font-size:22px;line-height:1.15}
+.pain p{color:var(--muted)}
+
+/* ---------- BAND + CARROSSEL ---------- */
+.band{background:var(--band-bg);color:var(--band-fg)}
+.band .sec-head p{color:var(--band-muted)}
+.band .label{color:var(--accent)}
+.car-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:32px}
+.car-head .sec-head{margin-bottom:0}
+.car-ctrl{display:flex;gap:10px}
+.car-ctrl button{width:52px;height:52px;border-radius:50%;border:2px solid var(--band-fg);background:transparent;color:var(--band-fg);font-size:22px;cursor:pointer;transition:background-color .2s,color .2s}
+.car-ctrl button:hover{background:var(--band-fg);color:var(--band-bg)}
+.track-x{display:grid;grid-auto-flow:column;grid-auto-columns:min(86%,360px);gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding-bottom:12px;scrollbar-width:none}
+.track-x::-webkit-scrollbar{display:none}
+.svc-slide{scroll-snap-align:start;background:var(--band-card);border-radius:var(--r-md);padding:20px;display:grid;gap:14px;align-content:start}
+.mock{aspect-ratio:4/5;border-radius:12px;position:relative;overflow:hidden;display:grid;padding:18px;align-content:space-between}
+.mock .tag{justify-self:start;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 9px;border-radius:var(--r-pill);background:rgba(0,0,0,.18)}
+.mock .big{font-family:var(--f-display);font-weight:800;font-size:28px;line-height:1}
+.mock .dots{display:flex;gap:5px}.mock .dots i{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.35}.mock .dots i:first-child{opacity:1}
+.m1{background:var(--accent);color:var(--accent-ink)}
+.m2{background:var(--c2);color:#FFF4D6}
+.m3{background:var(--form-bg);color:var(--form-fg)}
+.m4{background:var(--c3);color:#FFF4D6}
+.m5{background:#FFF4D6;color:#141414}
+.mock .play{width:54px;height:54px;border-radius:50%;background:currentColor;justify-self:center;display:grid;place-items:center}
+.mock .play::after{content:"";border-left:16px solid var(--c2);border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:4px}
+.mock .bars{display:flex;align-items:end;gap:6px;height:70px}
+.mock .bars i{flex:1;background:currentColor;border-radius:4px 4px 0 0;opacity:.85}
+.svc-slide h3{font-size:21px}
+.svc-slide p{color:var(--band-muted);font-size:15px}
+.car-dots{display:flex;gap:8px;margin-top:20px}
+.car-dots button{width:10px;height:10px;border-radius:var(--r-pill);border:0;background:var(--band-muted);opacity:.5;cursor:pointer;padding:0;transition:width .3s,opacity .3s,background-color .3s}
+.car-dots button[aria-current="true"]{width:34px;opacity:1;background:var(--accent)}
+
+/* ---------- GRÁFICOS ---------- */
+.charts{display:grid;gap:18px}
+@media (min-width:900px){.charts{grid-template-columns:1fr 1.35fr}}
+.chart-card{background:var(--raised);border:2px solid var(--line);border-radius:var(--r-md);padding:24px;display:grid;gap:16px;align-content:start;min-width:0}
+.chart-card h3{font-size:21px}
+.chart-card .sub{color:var(--muted);font-size:14px;margin-top:-8px}
+.donut-wrap{display:grid;grid-template-columns:minmax(0,180px) 1fr;gap:20px;align-items:center}
+@media (max-width:420px){.donut-wrap{grid-template-columns:1fr}}
+.donut{width:100%;max-width:180px;aspect-ratio:1;justify-self:center}
+.donut circle{fill:none;stroke-width:22;transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1),stroke .6s}
+.donut text{fill:var(--ink);font-family:var(--f-display);font-weight:800}
+.legend{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:15px}
+.legend li{display:grid;grid-template-columns:14px 1fr auto;gap:10px;align-items:center;cursor:default;border-radius:8px;transition:opacity .2s}
+.legend li i{width:14px;height:14px;border-radius:4px}
+.legend li b{font-variant-numeric:tabular-nums}
+.legend.dim li:not(.hl){opacity:.35}
+.gantt{display:grid;gap:10px}
+.g-scale{display:grid;grid-template-columns:120px repeat(13,1fr);font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.04em}
+.g-scale span:nth-child(n+2){border-left:1px solid var(--line);padding-left:3px}
+.g-row{display:grid;grid-template-columns:120px 1fr;gap:0;align-items:center;font-size:14px;font-weight:600}
+.g-lane{position:relative;height:30px;background:repeating-linear-gradient(90deg,transparent 0 calc(100%/13 - 1px),var(--line) calc(100%/13 - 1px) calc(100%/13));border-radius:6px}
+.g-bar{position:absolute;top:4px;bottom:4px;border-radius:var(--r-pill);transform-origin:left;transition:transform 1s cubic-bezier(.4,0,.2,1),background-color .6s;display:flex;align-items:center;padding-left:10px;font-size:11px;font-weight:700;color:#FFF4D6;white-space:nowrap;overflow:hidden}
+.pre .g-bar{transform:scaleX(0)}
+@media (max-width:600px){.g-scale,.g-row{grid-template-columns:84px 1fr}.g-scale{grid-template-columns:84px repeat(13,1fr);font-size:9px}.g-scale span:nth-child(2n+3){color:transparent}.g-row{font-size:13px}}
+.curve svg{width:100%;height:auto;display:block}
+.curve .path{fill:none;stroke:var(--c3);stroke-width:4;stroke-linecap:round;stroke-dasharray:1000;transition:stroke-dashoffset 1.8s ease,stroke .6s}
+.curve .path2{fill:none;stroke:var(--muted);stroke-width:2.5;stroke-dasharray:6 7;opacity:.7}
+.curve .area{fill:var(--c3);opacity:.12;transition:fill .6s}
+.curve .ax{stroke:var(--line);stroke-width:1.5}
+.curve text{fill:var(--muted);font-size:12px;font-family:var(--f-body);font-weight:600}
+.pre .curve .path{stroke-dashoffset:1000}
+.note-ill{font-size:12px;color:var(--muted);font-style:italic}
+.span2{grid-column:1/-1}
+
+/* ---------- EQUIPE ---------- */
+.team{display:grid;gap:16px}
+@media (min-width:800px){.team{grid-template-columns:repeat(3,1fr)}}
+.person{background:var(--raised);border:2px solid var(--line);border-radius:var(--r-md);padding:24px;display:grid;gap:10px;align-content:start;transition:transform .25s ease,background-color .6s,border-color .6s}
+.person:hover{transform:translateY(-6px) rotate(-.6deg)}
+.avatar{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:24px}
+.person:nth-child(1) .avatar{background:var(--c4);color:#141414}
+.person:nth-child(2) .avatar{background:var(--c2);color:#FFF4D6}
+.person:nth-child(3) .avatar{background:var(--c3);color:#FFF4D6}
+.person h3{font-size:22px}
+.person .role{font-weight:700;font-size:14px;color:var(--label)}
+.person p{color:var(--muted);font-size:16px}
+
+/* ---------- OFERTA ---------- */
+.offer{background:var(--offer-bg);color:var(--offer-fg)}
+.offer .label{color:var(--offer-fg);opacity:.8}
+.offer .grid{display:grid;gap:40px}
+@media (min-width:900px){.offer .grid{grid-template-columns:1fr 1fr;align-items:start}}
+.offer h2{font-size:clamp(34px,5.4vw,60px);line-height:.98}
+.offer .lede{font-size:19px;margin-top:16px;max-width:42ch;font-weight:500}
+.gets{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:12px}
+.gets li{display:grid;grid-template-columns:28px 1fr;gap:10px;font-weight:500}
+.gets li::before{content:"";width:22px;height:8px;border-radius:9px;background:currentColor;margin-top:9px}
+.note{margin-top:22px;font-size:14px;font-weight:600}
+form{background:var(--form-bg);color:var(--form-fg);border-radius:var(--r-md);padding:24px;display:grid;gap:16px;box-shadow:10px 10px 0 var(--offer-fg)}
+@media (min-width:600px){form{padding:32px}}
+form h3{font-size:24px}
+.field{display:grid;gap:6px}
+.field label{font-weight:700;font-size:14px}
+.field input,.field select,.field textarea{font:500 16px/1.4 var(--f-body);color:var(--form-fg);background:var(--field);border:2px solid var(--field-line);border-radius:10px;padding:12px 14px;width:100%;min-width:0;transition:border-color .2s,background-color .6s,color .6s}
+.field textarea{min-height:88px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--form-fg)}
+.row2{display:grid;gap:16px}
+@media (min-width:600px){.row2{grid-template-columns:1fr 1fr}}
+.err{color:var(--c3);font-size:14px;font-weight:700;min-height:1em}
+.result{display:grid;gap:12px;background:var(--field);border-radius:10px;padding:16px;border:2px solid var(--form-fg)}
+.result p{font-size:15px}
+form .btn{width:100%}
+.btn-form{background:var(--form-fg);color:var(--form-bg)}
+.btn-wa{background:var(--accent);color:var(--accent-ink)}
+.alt{font-size:14px;opacity:.85}
+.alt b{user-select:all}
+
+/* ---------- FAQ ---------- */
+.faq{display:grid;max-width:820px}
+details{border-top:2px solid var(--line);padding-block:20px}
+details:last-child{border-bottom:2px solid var(--line)}
+summary{cursor:pointer;font-family:var(--f-display);font-weight:700;font-size:20px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:26px;line-height:1;transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--muted);margin-top:12px;max-width:65ch}
+
+/* ---------- RODAPÉ ---------- */
+footer{background:var(--band-bg);color:var(--band-fg)}
+footer .wrap{display:grid;gap:28px;padding-block:56px 40px}
+@media (min-width:800px){footer .wrap{grid-template-columns:1.2fr 1fr;align-items:end}}
+footer .big{font-family:var(--f-display);font-weight:800;font-size:clamp(30px,4.6vw,50px);line-height:1}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:16px}
+footer a{text-decoration:none;border-bottom:1px solid var(--band-muted)}
+footer a:hover{border-color:var(--accent)}
+footer small{color:var(--band-muted);font-size:13px;grid-column:1/-1}
+
+/* toast do esquema */
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:var(--r-pill);font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:20;display:flex;gap:10px;align-items:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.toast i{display:inline-flex;gap:3px}.toast i b{width:12px;height:12px;border-radius:50%;display:block;border:1px solid rgba(127,127,127,.4)}
+
+/* entrada progressiva (só onde o navegador suporta; o conteúdo nunca fica escondido) */
+@supports (animation-timeline: view()){
+  .rise{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 60%}
+  @keyframes rise{from{transform:translateY(36px)}to{transform:none}}
+}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+
+<div class="hero">
+  <span class="blob b1" aria-hidden="true"></span><span class="blob b2" aria-hidden="true"></span>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="logo-wrap" id="logoWrap">
+        <button class="bar-btn" id="barBtn" type="button" aria-label="Trocar o esquema de cores da página"></button>
+        <svg viewBox="0 0 5000 2489" role="img" aria-label="Keijo">
+          <path class="rest" d="M 6.148438 140.429688 C 114.75 140.550781 223.339844 140.519531 331.941406 140.449219 C 332.078125 141.941406 332.199219 143.441406 332.25 144.941406 C 332.28125 459.320312 332.199219 773.699219 332.289062 1088.078125 C 413.511719 1072.421875 490.640625 1038.269531 559.039062 992.070312 C 630.121094 944.21875 690.609375 881.429688 738.550781 810.578125 C 766.328125 769.46875 789.070312 725.011719 806.671875 678.640625 C 820.070312 643.5 830.398438 607.238281 838.359375 570.5 C 953.921875 570.480469 1069.480469 570.511719 1185.039062 570.480469 C 1183.640625 579.070312 1180.839844 587.359375 1178.691406 595.78125 C 1155.648438 678.429688 1120.96875 757.839844 1075.75 830.769531 C 1036.300781 894.230469 990.480469 953.789062 938.660156 1007.648438 C 885.75 1062.46875 826.898438 1111.898438 762.019531 1152 C 727.570312 1173.25 691.429688 1191.828125 653.820312 1206.839844 C 652.480469 1207.390625 651.171875 1208.019531 649.890625 1208.691406 C 721.578125 1229.28125 788.140625 1265.058594 848.421875 1308.601562 C 913.289062 1355.320312 971.730469 1410.738281 1023.078125 1471.941406 C 1048.328125 1502.128906 1071.671875 1533.910156 1092.929688 1567.03125 C 1113.660156 1599.46875 1132.738281 1633.011719 1149.148438 1667.859375 C 1167.28125 1706.558594 1181.988281 1746.890625 1192.78125 1788.25 C 1198.070312 1809.128906 1203 1830.171875 1205.96875 1851.519531 C 1090.421875 1851.511719 974.859375 1851.449219 859.308594 1851.558594 C 850.371094 1812.210938 838.71875 1773.398438 822.839844 1736.269531 C 807.808594 1700.640625 789.101562 1666.621094 767.550781 1634.53125 C 725.171875 1570.53125 672.921875 1512.851562 612.160156 1465.828125 C 580.160156 1441.109375 545.890625 1419.28125 509.738281 1401.128906 C 455.199219 1373.351562 395.859375 1354.519531 334.941406 1347.820312 C 334.25 1347.839844 332.859375 1347.878906 332.171875 1347.898438 C 332.359375 1509.601562 332.199219 1671.300781 332.25 1833 C 332.128906 1839.179688 332.578125 1845.378906 331.941406 1851.550781 C 223.339844 1851.480469 114.75 1851.449219 6.148438 1851.570312 C 5.789062 1801.050781 6.101562 1750.519531 6 1700 C 6 1184.328125 6 668.660156 6 153 C 5.96875 148.808594 5.929688 144.621094 6.148438 140.429688  M 1603.730469 599.800781 C 1684.378906 569.121094 1770.769531 554.171875 1857 554.25 C 1910.371094 554.140625 1963.828125 559.128906 2016.089844 570.171875 C 2086.359375 585.121094 2154.738281 610.5 2216.28125 647.789062 C 2262.730469 675.960938 2305.320312 711.199219 2338.871094 754.121094 C 2372.289062 796.640625 2397.128906 846.230469 2408.808594 899.160156 C 2414.800781 926 2417.558594 953.519531 2417.511719 981 C 2417.410156 1028.171875 2408.949219 1075.851562 2388.601562 1118.648438 C 2373.949219 1150.289062 2352.539062 1178.378906 2327.941406 1202.941406 C 2292.121094 1239.109375 2249.671875 1268.308594 2204.269531 1291.128906 C 2160.648438 1312.808594 2114.628906 1329.398438 2067.871094 1342.859375 C 2004.609375 1361.070312 1939.480469 1372.058594 1874.039062 1378.660156 C 1806.289062 1385.730469 1738.109375 1388.808594 1670 1387.488281 C 1659.011719 1387.199219 1648 1387.230469 1637.058594 1386.039062 C 1612.769531 1383.769531 1588.359375 1384.960938 1564.019531 1384.039062 C 1548.761719 1383.710938 1533.539062 1382.269531 1518.289062 1382.28125 C 1526.011719 1417.199219 1543.21875 1449.570312 1565.808594 1477.121094 C 1589.039062 1505.390625 1617.179688 1529.550781 1648.429688 1548.558594 C 1709.601562 1585.628906 1780.75 1604.671875 1851.949219 1607.929688 C 1907.050781 1610.761719 1962.789062 1603.769531 2015.140625 1586.148438 C 2062.429688 1570.539062 2107.328125 1547.761719 2148.058594 1519.121094 C 2180.539062 1496.191406 2210.808594 1469.949219 2237.03125 1440.011719 C 2244.390625 1431.78125 2251.011719 1422.941406 2257.929688 1414.359375 C 2319.980469 1460.851562 2381.839844 1507.609375 2443.828125 1554.191406 C 2456.570312 1563.890625 2469.53125 1573.308594 2482.148438 1583.179688 C 2436.828125 1643.289062 2381.839844 1696.269531 2319.449219 1738.488281 C 2254.21875 1782.558594 2181.851562 1816.109375 2105.890625 1836.878906 C 2008.261719 1863.671875 1905.988281 1872.558594 1805.109375 1865.289062 C 1746.691406 1860.96875 1688.640625 1850.601562 1632.660156 1833.261719 C 1578.328125 1816.398438 1525.871094 1793.308594 1477.191406 1763.828125 C 1416.71875 1727.121094 1362.160156 1680.449219 1317.519531 1625.511719 C 1270.480469 1567.5 1234.511719 1500.589844 1211.511719 1429.558594 C 1182.121094 1338.011719 1175.25 1240.269531 1183.949219 1144.839844 C 1188.28125 1099.300781 1196.871094 1054.109375 1210.351562 1010.371094 C 1222.960938 969.21875 1240.109375 929.511719 1260.820312 891.800781 C 1295.828125 827.839844 1342.339844 770.230469 1397.53125 722.570312 C 1458.121094 669.660156 1528.46875 628.128906 1603.730469 599.800781  M 1784.921875 819.128906 C 1744.269531 827.320312 1705.078125 842.839844 1670.039062 865.039062 C 1639.261719 884.28125 1611.019531 907.738281 1587.191406 935.160156 C 1564.871094 960.679688 1546.589844 989.609375 1532.140625 1020.238281 C 1513.550781 1059.628906 1502.011719 1102.539062 1499.828125 1146.101562 C 1543.789062 1149.609375 1587.851562 1152.269531 1631.960938 1152.871094 C 1689.398438 1153.691406 1746.871094 1151.578125 1804.109375 1146.671875 C 1847.890625 1143.011719 1891.488281 1136.261719 1934.011719 1125.070312 C 1967.78125 1116.289062 2001.128906 1104.441406 2030.808594 1085.808594 C 2052.808594 1071.871094 2073.890625 1054.691406 2086.421875 1031.390625 C 2094.578125 1016.550781 2098.988281 999.808594 2100.179688 982.960938 C 2101.488281 964.820312 2099.261719 946.300781 2092.710938 929.28125 C 2086.941406 914.011719 2077.839844 900.128906 2066.859375 888.109375 C 2044.898438 863.871094 2016.648438 846.011719 1986.679688 833.308594 C 1947.75 816.75 1905.050781 810.660156 1862.960938 811.160156 C 1836.78125 811.378906 1810.578125 813.851562 1784.921875 819.128906  M 4323.351562 554.359375 C 4415.078125 552.640625 4507.628906 565.941406 4593.699219 598.328125 C 4667.289062 625.941406 4736.191406 666.679688 4794.511719 719.5 C 4821.5 743.890625 4846.140625 770.851562 4868.269531 799.710938 C 4891.871094 830.738281 4912.980469 863.738281 4930.339844 898.671875 C 4968.089844 973.929688 4988.25 1057.179688 4994.769531 1140.890625 C 5000.828125 1223.011719 4996.648438 1306.339844 4977.570312 1386.609375 C 4962.339844 1450.890625 4937.039062 1512.898438 4901.691406 1568.75 C 4871.058594 1617.601562 4833.921875 1662.449219 4790.949219 1700.941406 C 4733.210938 1752.851562 4665.398438 1793.179688 4593.011719 1821.039062 C 4508.761719 1853.589844 4418.121094 1867.878906 4328 1867.75 C 4276.921875 1867.589844 4225.78125 1862.929688 4175.738281 1852.488281 C 4096.070312 1836.011719 4019.449219 1804.460938 3951.839844 1759.140625 C 3889.011719 1717.398438 3834.550781 1663.359375 3791.609375 1601.398438 C 3768.359375 1567.980469 3748.121094 1532.421875 3731.941406 1495.050781 C 3696.070312 1412.601562 3679.710938 1322.621094 3677.460938 1233.019531 C 3675 1140.398438 3686.050781 1046.53125 3718.070312 959.210938 C 3744.789062 885.75 3786.769531 818.089844 3839.269531 760.289062 C 3889.578125 704.980469 3950.679688 659.761719 4017.609375 626.570312 C 4094.558594 587.820312 4179.199219 565.140625 4264.910156 557.488281 C 4284.339844 555.71875 4303.839844 554.730469 4323.351562 554.359375  M 4306.46875 837.609375 C 4251.871094 841.789062 4198.28125 860.128906 4153 891 C 4124.679688 910.480469 4100.261719 935.339844 4080.21875 963.199219 C 4058.980469 992.71875 4041.878906 1025.339844 4031.03125 1060.089844 C 4016.171875 1106.5 4010.710938 1155.429688 4010.238281 1204 C 4010.019531 1253.179688 4014.550781 1302.710938 4027.800781 1350.210938 C 4038.019531 1387.429688 4054.449219 1422.921875 4076.25 1454.78125 C 4096.101562 1483.960938 4120.960938 1509.929688 4150.199219 1529.820312 C 4180.039062 1549.988281 4213.589844 1564.539062 4248.46875 1573.390625 C 4296.210938 1585.179688 4346.511719 1586.078125 4394.769531 1576.851562 C 4432.070312 1569.640625 4468.070312 1555.949219 4500.980469 1537 C 4532.230469 1518.839844 4559.738281 1494.519531 4582.460938 1466.46875 C 4605.121094 1438.230469 4624.039062 1406.789062 4636.980469 1372.910156 C 4653.03125 1331.109375 4660.871094 1286.519531 4663.320312 1241.921875 C 4665.761719 1195.929688 4663.539062 1149.511719 4654.53125 1104.289062 C 4646.488281 1064.449219 4632.53125 1025.558594 4611.078125 990.929688 C 4592.21875 959.890625 4568.828125 931.378906 4540.71875 908.261719 C 4512.460938 884.738281 4479.449219 867.359375 4444.871094 855.148438 C 4400.640625 839.660156 4353.140625 833.929688 4306.46875 837.609375  M 2600.058594 570.449219 C 2709.519531 570.601562 2818.980469 570.378906 2928.441406 570.558594 C 2928.589844 785.039062 2928.460938 999.519531 2928.511719 1214 C 2928.46875 1426.480469 2928.578125 1638.960938 2928.449219 1851.441406 C 2818.988281 1851.621094 2709.519531 1851.398438 2600.058594 1851.550781 C 2599.328125 1840.050781 2599.941406 1828.511719 2599.75 1817 C 2599.75 1408.328125 2599.75 999.660156 2599.75 591 C 2599.878906 584.148438 2599.378906 577.28125 2600.058594 570.449219  M 3180.148438 570.429688 C 3288.738281 570.550781 3397.339844 570.519531 3505.929688 570.441406 C 3506.671875 581.941406 3506.039062 593.480469 3506.25 605 C 3506.25 1084 3506.25 1563 3506.25 2042 C 3505.46875 2089.878906 3499.601562 2137.910156 3485.921875 2183.878906 C 3475.660156 2218.539062 3460.839844 2251.898438 3441.390625 2282.390625 C 3421.539062 2313.949219 3398 2343.269531 3370.820312 2368.808594 C 3314.921875 2421.460938 3243.410156 2457.050781 3167.988281 2471.058594 C 3120.03125 2479.851562 3070.519531 2480.460938 3022.398438 2472.488281 C 2943.191406 2459.261719 2868.421875 2423.769531 2805.710938 2373.96875 C 2825.691406 2338.019531 2846.308594 2302.421875 2866.550781 2266.621094 C 2887.820312 2229.191406 2909.089844 2191.769531 2930.378906 2154.351562 C 2933.578125 2148.910156 2936.378906 2143.230469 2939.871094 2137.96875 C 2954.75 2145.601562 2970.21875 2152.238281 2986.398438 2156.628906 C 3011.128906 2163.488281 3037.421875 2165.578125 3062.738281 2160.839844 C 3079.730469 2157.671875 3096.058594 2151.070312 3110.46875 2141.519531 C 3134.921875 2125.238281 3154.28125 2101.441406 3165.148438 2074.148438 C 3176.890625 2045.359375 3180.5 2013.890625 3180 1983 C 3180 1551 3180 1119 3180 687 C 3180.101562 648.140625 3179.789062 609.28125 3180.148438 570.429688 "/>
+          <path class="bar" d="M 2742.46875 2.601562 C 2762.328125 1.089844 2782.359375 1.410156 2802.148438 3.78125 C 2812.410156 4.28125 2822.710938 3.859375 2833 4 C 2990.351562 3.988281 3147.699219 4.011719 3305.050781 3.988281 C 3317.339844 3.011719 3329.628906 1.480469 3342 1.738281 C 3384.011719 1.109375 3426.699219 9.859375 3463.53125 30.558594 C 3494.199219 47.808594 3520.898438 72.328125 3540.238281 101.769531 C 3561 133.371094 3571.191406 171.308594 3571.019531 209 C 3571.390625 244.621094 3562.75 280.621094 3544.171875 311.179688 C 3525.988281 341.121094 3499.800781 365.898438 3469.820312 383.839844 C 3440.21875 401.429688 3406.429688 411.441406 3372.21875 414.46875 C 3368.75 414.640625 3365.449219 415.878906 3362.011719 415.988281 C 3156.671875 416.011719 2951.320312 415.988281 2745.980469 416 C 2742.558594 415.960938 2739.441406 414.371094 2736.058594 414.21875 C 2697.949219 410.519531 2660.441406 397.949219 2628.851562 376.121094 C 2609.148438 362.578125 2591.5 345.980469 2577.148438 326.859375 C 2560.46875 304.671875 2548.921875 278.679688 2543.671875 251.429688 C 2537.890625 221.140625 2538.378906 189.589844 2545.570312 159.578125 C 2552.261719 131.820312 2565.558594 105.75 2583.75 83.761719 C 2608.511719 53.78125 2640.988281 29.949219 2677.609375 16.601562 C 2698.410156 8.871094 2720.359375 4.390625 2742.46875 2.601562 "/>
+          <circle class="knob" cx="2752" cy="208" r="142"/>
+        </svg>
+        <span class="hint" aria-hidden="true">Clique na barra</span>
+      </div>
+      <a class="btn btn-main" href="#raio-x">Quero meu Raio-X</a>
+    </div>
+
+    <div class="hero-grid">
+      <div>
+        <p class="label">Agência de comunicação digital</p>
+        <h1 style="margin-top:14px">Sua marca<br><span class="rot" id="rot" aria-live="off"><span class="cur">no ponto.</span><span>afinada.</span><span>lembrada.</span><span>vendendo.</span></span></h1>
+        <p class="lede">Planejamento, conteúdo e design para marcas que querem crescer nas redes com consistência. A gente afina a estratégia. Você colhe o resultado.</p>
+        <div class="ctas">
+          <a class="btn btn-main" href="#raio-x">Pedir Raio-X gratuito <span class="arr">→</span></a>
+          <a class="btn btn-ghost" href="#metodo">Ver o método</a>
+        </div>
+      </div>
+      <aside class="ficha" aria-label="Ficha de afinação">
+        <div class="fh"><b>Ficha de afinação</b><span style="font-size:11px;font-weight:700;letter-spacing:.08em">LOTE 001</span></div>
+        <dl>
+          <dt>Marca</dt><dd>A sua</dd>
+          <dt>Maturação</dt><dd>90 dias de plano, revisado todo mês</dd>
+          <dt>Ingredientes</dt><dd>Estratégia, copy, design e vídeo</dd>
+          <dt>Notas</dt><dd>Consistência, autoridade e conversas que viram venda</dd>
+        </dl>
+        <div class="mat"><div class="row"><span>Dia 1</span><span>No ponto · dia 90</span></div><div class="track"><div class="fill"></div></div></div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>Estratégia</span><span>Planejamento</span><span>Copywriting</span><span>Design</span><span>Reels</span><span>Identidade visual</span><span>Social media</span>
+    <span>Estratégia</span><span>Planejamento</span><span>Copywriting</span><span>Design</span><span>Reels</span><span>Identidade visual</span><span>Social media</span>
+  </div>
+</div>
+
+<main>
+  <section>
+    <div class="wrap">
+      <div class="sec-head rise">
+        <p class="label">O problema</p>
+        <h2>Postar todo dia não é estratégia.</h2>
+        <p>A maioria das marcas pequenas está nas redes do mesmo jeito: na correria, sem plano e sem saber o que funciona.</p>
+      </div>
+      <div class="pains">
+        <div class="pain rise"><h3>Post sem rumo</h3><p>Conteúdo feito na véspera, sem calendário, sem objetivo. O perfil existe, mas não trabalha pela marca.</p></div>
+        <div class="pain rise"><h3>Visual que não convence</h3><p>Cada post com uma cara. Quem chega no perfil não entende o que a marca é, nem por que deveria confiar nela.</p></div>
+        <div class="pain rise"><h3>Seguidor que não compra</h3><p>Curtida não paga conta. Falta texto que conduz para a conversa e uma oferta clara no fim do caminho.</p></div>
+      </div>
+      <div class="stats" id="stats">
+        <div class="stat rise"><b data-n="17">17</b><span>anos de design no time</span></div>
+        <div class="stat rise"><b data-n="3">3</b><span>especialistas no seu projeto</span></div>
+        <div class="stat rise"><b data-n="90">90</b><span>dias de plano por ciclo</span></div>
+        <div class="stat rise"><b data-n="1">1</b><span>time só, sem terceirizar</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="car-head">
+        <div class="sec-head">
+          <p class="label">O que entregamos</p>
+          <h2>Formatos que fazem a marca trabalhar.</h2>
+          <p>Estratégia, texto e design no mesmo plano. Arraste para o lado ou use as setas.</p>
+        </div>
+        <div class="car-ctrl"><button type="button" id="prev" aria-label="Anterior">←</button><button type="button" id="next" aria-label="Próximo">→</button></div>
+      </div>
+      <div class="track-x" id="track" tabindex="0" aria-label="Formatos de conteúdo">
+        <article class="svc-slide"><div class="mock m1"><span class="tag">Carrossel</span><span class="big">5 erros que deixam sua bio invisível</span><span class="dots"><i></i><i></i><i></i><i></i><i></i></span></div><h3>Carrossel educativo</h3><p>Ensina, gera salvamento e posiciona a marca como quem entende do assunto.</p></article>
+        <article class="svc-slide"><div class="mock m2"><span class="tag">Reels</span><span class="play" aria-hidden="true"></span><span class="big" style="font-size:22px">Bastidores em 30 segundos</span></div><h3>Reels roteirizado</h3><p>Roteiro, gancho nos 3 primeiros segundos e edição. Alcance para quem ainda não te conhece.</p></article>
+        <article class="svc-slide"><div class="mock m3"><span class="tag">Prova</span><span class="bars" aria-hidden="true"><i style="height:30%"></i><i style="height:45%"></i><i style="height:60%"></i><i style="height:82%"></i><i style="height:100%"></i></span><span class="big" style="font-size:22px">Antes e depois do cliente</span></div><h3>Post de prova</h3><p>Resultado, depoimento e caso real. É o que transforma interesse em confiança.</p></article>
+        <article class="svc-slide"><div class="mock m4"><span class="tag">Story</span><span class="big">Últimas vagas desta semana</span><span class="tag" style="justify-self:stretch;text-align:center;background:#FFF4D6;color:#141414;padding:10px">Responder agora</span></div><h3>Story de oferta</h3><p>Chamada direta, com urgência real e um caminho curto até o WhatsApp.</p></article>
+        <article class="svc-slide"><div class="mock m5"><span class="tag">Identidade</span><span style="display:flex;gap:8px"><i style="width:44px;height:44px;border-radius:50%;background:#F5BF00"></i><i style="width:44px;height:44px;border-radius:50%;background:#141414"></i><i style="width:44px;height:44px;border-radius:50%;background:#24456B"></i><i style="width:44px;height:44px;border-radius:50%;background:#C8321A"></i></span><span class="big" style="font-size:24px">Aa — sua marca, sempre igual</span></div><h3>Identidade e templates</h3><p>Paleta, tipografia e modelos prontos. O feed fica reconhecível de longe.</p></article>
+        <article class="svc-slide"><div class="mock m1"><span class="tag">Plano</span><span class="big">Calendário do mês aprovado em 10 minutos</span><span class="dots"><i></i><i></i><i></i></span></div><h3>Planejamento mensal</h3><p>Calendário, pautas e textos para aprovar de uma vez, pelo celular.</p></article>
+      </div>
+      <div class="car-dots" id="dots" role="tablist" aria-label="Escolher formato"></div>
+    </div>
+  </section>
+
+  <section id="metodo">
+    <div class="wrap">
+      <div class="sec-head rise">
+        <p class="label">O método</p>
+        <h2>Afinação tem receita.</h2>
+        <p>Nada de post aleatório. Cada ciclo de 90 dias tem etapas, proporções e um objetivo medido.</p>
+      </div>
+      <div class="charts pre" id="charts">
+        <div class="chart-card rise">
+          <h3>Mix de conteúdo</h3>
+          <p class="sub">A proporção que usamos como ponto de partida. Ajustamos para cada marca.</p>
+          <div class="donut-wrap">
+            <svg class="donut" viewBox="0 0 200 200" id="donut" role="img" aria-label="Mix de conteúdo: Educar 40%, Conectar 25%, Provar 20%, Vender 15%">
+              <g transform="rotate(-90 100 100)"></g>
+              <text x="100" y="96" text-anchor="middle" font-size="30" id="dVal">40%</text>
+              <text x="100" y="122" text-anchor="middle" font-size="13" style="font-family:var(--f-body);font-weight:600;fill:var(--muted)" id="dLab">Educar</text>
+            </svg>
+            <ul class="legend" id="legend"></ul>
+          </div>
+        </div>
+        <div class="chart-card rise">
+          <h3>Ciclo de 90 dias</h3>
+          <p class="sub">O que acontece em cada semana do plano.</p>
+          <div class="gantt" id="gantt">
+            <div class="g-scale"><span></span><span>S1</span><span>S2</span><span>S3</span><span>S4</span><span>S5</span><span>S6</span><span>S7</span><span>S8</span><span>S9</span><span>S10</span><span>S11</span><span>S12</span><span>S13</span></div>
+          </div>
+        </div>
+        <div class="chart-card span2 rise curve">
+          <h3>Por que consistência ganha</h3>
+          <p class="sub">Presença de marca ao longo dos meses: com plano, cada mês soma ao anterior. Sem plano, ela sobe e cai.</p>
+          <svg viewBox="0 0 800 260" role="img" aria-label="Esquema ilustrativo: a linha com plano cresce de forma contínua; a linha sem plano oscila sem crescer">
+            <line class="ax" x1="40" y1="220" x2="780" y2="220"/>
+            <path class="area" d="M40 210 C160 200 240 185 330 165 S520 110 620 80 S740 40 780 30 L780 220 L40 220 Z"/>
+            <path class="path2" d="M40 205 C90 170 130 210 180 180 S260 200 300 175 S380 210 430 182 S520 205 560 178 S650 206 700 180 S760 195 780 188"/>
+            <path class="path" pathLength="1000" d="M40 210 C160 200 240 185 330 165 S520 110 620 80 S740 40 780 30"/>
+            <text x="40" y="246">Mês 1</text><text x="268" y="246">Mês 2</text><text x="512" y="246">Mês 3</text><text x="728" y="246">Mês 4+</text>
+            <text x="640" y="68" style="fill:var(--ink);font-weight:700">Com plano</text>
+            <text x="600" y="168">Sem plano</text>
+          </svg>
+          <p class="note-ill">Esquema ilustrativo, sem valores reais. Serve para mostrar a lógica, não para prometer números.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head rise">
+        <p class="label">Quem faz</p>
+        <h2>Gente de verdade, com estrada.</h2>
+        <p>A Keijo é pequena de propósito. Você fala direto com quem faz o trabalho.</p>
+      </div>
+      <div class="team">
+        <article class="person rise"><div class="avatar" aria-hidden="true">J</div><h3>João</h3><p class="role">Design e vídeo</p><p>17 anos de design gráfico, com bagagem em eventos, música, esporte e suplementos. Cuida de tudo que a sua marca mostra.</p></article>
+        <article class="person rise"><div class="avatar" aria-hidden="true">K</div><h3>Keydmann</h3><p class="role">Estratégia, conteúdo e copy</p><p>Formada em Letras, social media e especialista em planejamento de conteúdo. Cuida de tudo que a sua marca diz.</p></article>
+        <article class="person rise"><div class="avatar" aria-hidden="true">L</div><h3>Lipe</h3><p class="role">Atendimento e resultados</p><p>Vem de vendas e estuda Administração. Cuida para que o plano vire número e o número vire decisão.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="offer" id="raio-x">
+    <div class="wrap grid">
+      <div>
+        <p class="label">Raio-X gratuito</p>
+        <h2 style="margin-top:12px">Descubra o que está travando o seu perfil.</h2>
+        <p class="lede">Preencha em um minuto. A gente analisa e responde pelo WhatsApp com um diagnóstico feito para a sua marca.</p>
+        <ul class="gets">
+          <li>Análise do perfil: bio, destaques, visual e frequência</li>
+          <li>Comparação com 2 concorrentes do seu segmento</li>
+          <li>3 melhorias que você pode aplicar ainda esta semana</li>
+          <li>Uma ideia de série de conteúdo para testar</li>
+        </ul>
+        <p class="note">Atendemos poucas marcas por vez, para fazer cada uma direito.</p>
+      </div>
+      <form id="lead" novalidate>
+        <h3>Pedir meu Raio-X</h3>
+        <div class="field"><label for="nome">Seu nome</label><input id="nome" name="nome" autocomplete="name" required placeholder="Ex.: Ana Souza"></div>
+        <div class="row2">
+          <div class="field"><label for="marca">Nome da marca</label><input id="marca" name="marca" required placeholder="Ex.: Studio Ana"></div>
+          <div class="field"><label for="insta">Instagram</label><input id="insta" name="insta" required placeholder="@suamarca"></div>
+        </div>
+        <div class="field"><label for="segmento">Segmento</label>
+          <select id="segmento" name="segmento" required>
+            <option value="">Escolha um</option>
+            <option>Fitness, saúde e bem-estar</option>
+            <option>Suplementos e nutrição</option>
+            <option>Eventos, música e entretenimento</option>
+            <option>Esporte e clubes</option>
+            <option>Alimentação e bebidas</option>
+            <option>Serviços profissionais</option>
+            <option>Varejo e moda</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="field"><label for="desafio">Qual é o maior desafio hoje?</label><textarea id="desafio" name="desafio" placeholder="Ex.: posto toda semana, mas quase ninguém chama no direct."></textarea></div>
+        <p class="err" id="err" role="alert"></p>
+        <button class="btn btn-form" type="submit">Montar mensagem para o WhatsApp</button>
+        <div class="result" id="result" hidden>
+          <p><b>Pronto.</b> Toque no botão abaixo para abrir o WhatsApp com a sua mensagem preenchida e enviar para a Keijo.</p>
+          <a class="btn btn-wa" id="wa" href="#" target="_blank" rel="noopener">Abrir WhatsApp e enviar</a>
+        </div>
+        <p class="alt">Prefere chamar direto? WhatsApp <b>(32) 99957-9329</b></p>
+      </form>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head rise">
+        <p class="label">Dúvidas</p>
+        <h2>Perguntas frequentes</h2>
+      </div>
+      <div class="faq">
+        <details><summary>O Raio-X é gratuito mesmo?</summary><p>Sim. É a forma de você conhecer o nosso jeito de trabalhar antes de qualquer proposta. Se fizer sentido seguir, a gente conversa sobre o plano.</p></details>
+        <details><summary>Vocês atendem só Juiz de Fora?</summary><p>Não. Trabalhamos 100% online e atendemos marcas de todo o Brasil. Reuniões por vídeo, aprovações pelo celular.</p></details>
+        <details><summary>Vocês fazem tráfego pago?</summary><p>Nosso foco é a base: estratégia, conteúdo e marca. Quando o plano pede anúncios para acelerar, orientamos o investimento e as peças junto com você.</p></details>
+        <details><summary>Quanto custa?</summary><p>Depende do escopo. Trabalhamos com planos mensais fechados, sem surpresa na fatura. Depois do Raio-X, você recebe uma proposta com valor e entregas definidos.</p></details>
+        <details><summary>Preciso ter fotos e vídeos prontos?</summary><p>Ajuda, mas não é obrigatório. No plano, orientamos o que gravar e como, para você produzir material bom com o próprio celular.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="big">Estratégia afinada,<br>resultado maturado.</p>
+    <ul>
+      <li>WhatsApp <a href="https://wa.me/5532999579329" target="_blank" rel="noopener">(32) 99957-9329</a></li>
+      <li>E-mail <span style="user-select:all">contato@keijo.digital</span></li>
+      <li>Instagram <a href="https://instagram.com/keijo.digital" target="_blank" rel="noopener">@keijo.digital</a></li>
+    </ul>
+    <small>© 2026 Keijo Digital</small>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.documentElement;
+
+  /* ---------- 5 esquemas de cor ---------- */
+  var SCHEMES = [
+    {name:'Clássico', v:{'hero-bg':'#F5BF00','hero-fg':'#141414','hero-soft':'rgba(20,20,20,.12)','bg':'#FFF4D6','ink':'#141414','muted':'#5E5747','raised':'#FFFFFF','line':'#E6DAB8','band-bg':'#141414','band-fg':'#FFF4D6','band-muted':'#B8AF98','band-card':'#1F1E1B','accent':'#F5BF00','accent-ink':'#141414','label':'#C8321A','offer-bg':'#F5BF00','offer-fg':'#141414','form-bg':'#FFF4D6','form-fg':'#141414','field':'#FFFFFF','field-line':'#D9CCA6','c1':'#141414','c2':'#24456B','c3':'#C8321A','c4':'#D9A600'}},
+    {name:'Maturado', v:{'hero-bg':'#141414','hero-fg':'#F5BF00','hero-soft':'rgba(245,191,0,.10)','bg':'#1A1917','ink':'#FFF4D6','muted':'#B8AF98','raised':'#24221F','line':'#3A372F','band-bg':'#F5BF00','band-fg':'#141414','band-muted':'#4A3C08','band-card':'#E8B300','accent':'#141414','accent-ink':'#F5BF00','label':'#F5BF00','offer-bg':'#FFF4D6','offer-fg':'#141414','form-bg':'#141414','form-fg':'#FFF4D6','field':'#24221F','field-line':'#3A372F','c1':'#F5BF00','c2':'#8FB0D9','c3':'#EE6A4E','c4':'#F5BF00'}},
+    {name:'Gorgonzola', v:{'hero-bg':'#24456B','hero-fg':'#FFF4D6','hero-soft':'rgba(255,244,214,.10)','bg':'#EEF2F7','ink':'#10233A','muted':'#4A5A6E','raised':'#FFFFFF','line':'#D3DCE7','band-bg':'#10233A','band-fg':'#EEF2F7','band-muted':'#9FB2C8','band-card':'#1A3150','accent':'#F5BF00','accent-ink':'#141414','label':'#24456B','offer-bg':'#F5BF00','offer-fg':'#141414','form-bg':'#FFFFFF','form-fg':'#10233A','field':'#F5F7FA','field-line':'#C9D3DF','c1':'#10233A','c2':'#24456B','c3':'#C8321A','c4':'#F5BF00'}},
+    {name:'Cera', v:{'hero-bg':'#C8321A','hero-fg':'#FFF4D6','hero-soft':'rgba(255,244,214,.12)','bg':'#FFF4D6','ink':'#141414','muted':'#5E5747','raised':'#FFFFFF','line':'#EAD7C0','band-bg':'#141414','band-fg':'#FFF4D6','band-muted':'#B8AF98','band-card':'#221F1C','accent':'#C8321A','accent-ink':'#FFFFFF','label':'#C8321A','offer-bg':'#141414','offer-fg':'#FFF4D6','form-bg':'#FFF4D6','form-fg':'#141414','field':'#FFFFFF','field-line':'#D9CCA6','c1':'#141414','c2':'#24456B','c3':'#C8321A','c4':'#F5BF00'}},
+    {name:'Coalho', v:{'hero-bg':'#FFF4D6','hero-fg':'#141414','hero-soft':'rgba(245,191,0,.35)','bg':'#FFFFFF','ink':'#141414','muted':'#5E5747','raised':'#FFF9E8','line':'#EEE6CF','band-bg':'#24456B','band-fg':'#FFF4D6','band-muted':'#BFD0E6','band-card':'#2C5079','accent':'#F5BF00','accent-ink':'#141414','label':'#24456B','offer-bg':'#141414','offer-fg':'#FFF4D6','form-bg':'#FFF4D6','form-fg':'#141414','field':'#FFFFFF','field-line':'#D9CCA6','c1':'#141414','c2':'#24456B','c3':'#C8321A','c4':'#F5BF00'}}
+  ];
+  var cur = 0, wrap = document.getElementById('logoWrap'), toast = document.getElementById('toast'), tt;
+  function apply(i, announce){
+    cur = i; var v = SCHEMES[i].v;
+    for (var k in v) root.style.setProperty('--'+k, v[k]);
+    root.style.colorScheme = (i===1) ? 'dark' : 'light';
+    try { localStorage.setItem('keijo-scheme', String(i)); } catch(e){}
+    if (announce){
+      toast.innerHTML = '<i><b style="background:'+v['hero-bg']+'"></b><b style="background:'+v['bg']+'"></b><b style="background:'+v['band-bg']+'"></b></i>Esquema '+SCHEMES[i].name+' · '+(i+1)+'/5';
+      toast.classList.add('on'); clearTimeout(tt); tt = setTimeout(function(){ toast.classList.remove('on'); }, 1800);
+    }
+  }
+  var saved = null; try { saved = parseInt(localStorage.getItem('keijo-scheme'),10); } catch(e){}
+  if (saved >= 0 && saved < 5) apply(saved, false);
+  document.getElementById('barBtn').addEventListener('click', function(){
+    var n; do { n = Math.floor(Math.random()*SCHEMES.length); } while (n === cur);
+    wrap.classList.toggle('on'); apply(n, true);
+  });
+  if (!reduce){ setTimeout(function(){ wrap.classList.add('show-hint'); setTimeout(function(){ wrap.classList.remove('show-hint'); }, 2600); }, 1200); }
+
+  /* ---------- palavra rotativa ---------- */
+  var rot = document.getElementById('rot'), words = rot.children, wi = 0;
+  if (!reduce) setInterval(function(){
+    var a = words[wi]; wi = (wi+1)%words.length; var b = words[wi];
+    a.classList.remove('cur'); a.classList.add('out');
+    b.classList.remove('out'); b.classList.add('cur');
+    setTimeout(function(){ a.classList.remove('out'); }, 600);
+  }, 2600);
+
+  /* ---------- contadores ---------- */
+  function countUp(el){
+    var n = +el.dataset.n, t0 = null;
+    if (reduce) return;
+    function step(t){ if(!t0) t0=t; var p=Math.min((t-t0)/1100,1); el.textContent = Math.round(n*(1-Math.pow(1-p,3))); if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(!e.isIntersecting) return; io.unobserve(e.target);
+      if (e.target.id==='stats') e.target.querySelectorAll('[data-n]').forEach(countUp);
+      if (e.target.id==='charts') e.target.classList.remove('pre'), drawDonut(true);
+    });
+  },{threshold:.3}) : null;
+
+  /* ---------- carrossel ---------- */
+  var track = document.getElementById('track'), slides = track.children, dots = document.getElementById('dots'), auto;
+  for (var i=0;i<slides.length;i++){ (function(i){ var d=document.createElement('button'); d.type='button'; d.setAttribute('aria-label','Formato '+(i+1)); d.addEventListener('click',function(){ go(i); }); dots.appendChild(d); })(i); }
+  function idx(){ var w = slides[0].getBoundingClientRect().width + 18; return Math.round(track.scrollLeft / w); }
+  function go(i){ i = (i+slides.length)%slides.length; track.scrollTo({left: slides[i].offsetLeft - slides[0].offsetLeft, behavior: reduce?'auto':'smooth'}); }
+  function mark(){ var k=idx(); [].forEach.call(dots.children,function(d,j){ d.setAttribute('aria-current', j===k ? 'true':'false'); }); }
+  track.addEventListener('scroll', function(){ window.requestAnimationFrame(mark); }, {passive:true});
+  document.getElementById('prev').addEventListener('click', function(){ go(idx()-1); });
+  document.getElementById('next').addEventListener('click', function(){ var k=idx(); var atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4; go(atEnd?0:k+1); });
+  function startAuto(){ if(reduce) return; stopAuto(); auto=setInterval(function(){ var atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4; go(atEnd?0:idx()+1); }, 4200); }
+  function stopAuto(){ clearInterval(auto); }
+  ['mouseenter','focusin','touchstart'].forEach(function(ev){ track.addEventListener(ev, stopAuto, {passive:true}); });
+  ['mouseleave','focusout'].forEach(function(ev){ track.addEventListener(ev, startAuto); });
+  mark(); startAuto();
+
+  /* ---------- donut ---------- */
+  var MIX = [['Educar',40,'c1'],['Conectar',25,'c2'],['Provar',20,'c3'],['Vender',15,'c4']];
+  var g = document.querySelector('#donut g'), legend = document.getElementById('legend'), R=78, C=2*Math.PI*R, circles=[];
+  var acc = 0;
+  MIX.forEach(function(m,i){
+    var c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',100); c.setAttribute('cy',100); c.setAttribute('r',R);
+    c.style.stroke = 'var(--'+m[2]+')';
+    var len = C*m[1]/100 - 3;
+    c.setAttribute('stroke-dasharray', len+' '+(C-len));
+    c.dataset.off = -C*acc/100; c.style.strokeDashoffset = C; acc += m[1];
+    g.appendChild(c); circles.push(c);
+    var li = document.createElement('li'); li.innerHTML = '<i style="background:var(--'+m[2]+')"></i><span>'+m[0]+'</span><b>'+m[1]+'%</b>';
+    li.addEventListener('mouseenter',function(){ hl(i); }); li.addEventListener('mouseleave',function(){ hl(-1); });
+    c.addEventListener('mouseenter',function(){ hl(i); }); c.addEventListener('mouseleave',function(){ hl(-1); });
+    legend.appendChild(li);
+  });
+  function hl(i){
+    legend.classList.toggle('dim', i>=0);
+    [].forEach.call(legend.children,function(li,j){ li.classList.toggle('hl', j===i); });
+    var k = i<0 ? 0 : i;
+    document.getElementById('dVal').textContent = MIX[k][1]+'%'; document.getElementById('dLab').textContent = MIX[k][0];
+    circles.forEach(function(c,j){ c.style.opacity = (i<0||j===i)?1:.3; });
+  }
+  function drawDonut(){ circles.forEach(function(c){ c.style.strokeDashoffset = c.dataset.off; }); }
+
+  /* ---------- gantt ---------- */
+  var STEPS = [['Raio-X',0,1,'c3'],['Plano',1,1,'c2'],['Identidade',1,2,'c4'],['Produção',2,11,'c1'],['Relatórios',4,9,'c3']];
+  var gantt = document.getElementById('gantt');
+  STEPS.forEach(function(s,i){
+    var row = document.createElement('div'); row.className='g-row';
+    var bar = '<div class="g-bar" style="left:calc(100%/13*'+s[1]+');width:calc(100%/13*'+s[2]+');background:var(--'+s[3]+');transition-delay:'+(i*0.15)+'s"></div>';
+    row.innerHTML = '<span>'+s[0]+'</span><div class="g-lane">'+bar+'</div>';
+    gantt.appendChild(row);
+  });
+  var ticks = gantt.querySelectorAll('.g-bar');
+  // relatórios: marcos mensais (semanas 4, 8, 12)
+  var rep = ticks[4]; rep.style.background='transparent'; rep.style.left='0'; rep.style.width='100%';
+  rep.innerHTML = [4,8,12].map(function(w){ return '<i style="position:absolute;left:calc(100%/13*'+(w-1)+' + 4px);top:0;bottom:0;width:calc(100%/13 - 8px);border-radius:999px;background:var(--c3)"></i>'; }).join('');
+  ticks[3].textContent = 'Posts, reels e stories toda semana';
+  ticks[3].style.color = 'var(--raised)';
+
+  if (io){ io.observe(document.getElementById('stats')); io.observe(document.getElementById('charts')); }
+  else { document.getElementById('charts').classList.remove('pre'); drawDonut(); }
+  if (reduce){ document.getElementById('charts').classList.remove('pre'); drawDonut(); }
+
+  /* ---------- formulário → WhatsApp ---------- */
+  var form=document.getElementById('lead'), err=document.getElementById('err'), result=document.getElementById('result'), wa=document.getElementById('wa');
+  function val(id){ return (document.getElementById(id).value||'').trim(); }
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var nome=val('nome'),marca=val('marca'),insta=val('insta'),seg=val('segmento'),des=val('desafio');
+    if(!nome||!marca||!insta||!seg){ err.textContent='Preencha nome, marca, Instagram e segmento para montar a mensagem.'; result.hidden=true; return; }
+    err.textContent='';
+    if(insta.charAt(0)!=='@') insta='@'+insta.replace(/^https?:\/\/(www\.)?instagram\.com\//,'').replace(/\/$/,'');
+    var msg='Olá, Keijo! Quero meu Raio-X gratuito.\n\nNome: '+nome+'\nMarca: '+marca+'\nInstagram: '+insta+'\nSegmento: '+seg+(des?'\nMaior desafio: '+des:'');
+    wa.href='https://wa.me/5532999579329?text='+encodeURIComponent(msg);
+    result.hidden=false; wa.focus();
+  });
+})();
+</script>
+
+</body>
+</html>

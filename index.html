@@ -865,9 +865,15 @@ footer{background:var(--band-bg);color:var(--band-fg)}
   var touched=false;
   days.addEventListener('input',function(){ touched=true; setDay(+days.value); });
   setDay(90);
-  if(!reduce){
+  /* uma demonstração única ao abrir: o queijo vai do dia 1 ao 90; com a aba em segundo plano, fica no dia 90 */
+  function sweepOnce(){
+    if(reduce||touched) return;
     var t0=null; setDay(1);
-    setTimeout(function(){ requestAnimationFrame(function sweep(t){ if(touched) return; if(!t0) t0=t; var p=Math.min((t-t0)/2600,1); var e=1-Math.pow(1-p,3); setDay(1+89*e); if(p<1) requestAnimationFrame(sweep); }); },600);
+    requestAnimationFrame(function sweep(t){ if(touched) return; if(!t0) t0=t; var p=Math.min((t-t0)/2600,1); setDay(1+89*(1-Math.pow(1-p,3))); if(p<1) requestAnimationFrame(sweep); });
+  }
+  if(!reduce){
+    if(document.visibilityState==='visible') setTimeout(sweepOnce,600);
+    else document.addEventListener('visibilitychange',function v(){ if(document.visibilityState==='visible'){ document.removeEventListener('visibilitychange',v); setTimeout(sweepOnce,400); } });
   }
 
   var pfGrid=document.getElementById('pfGrid'), pfF=document.getElementById('pfFilters'), cats=['Todos','Esporte','Eventos','Música','Marcas'];

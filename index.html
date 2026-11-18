@@ -155,7 +155,7 @@ a,button,summary{-webkit-tap-highlight-color:transparent}
 .logo-wrap:hover .hint,.logo-wrap.show-hint .hint{opacity:1;transform:none}
 
 .hero-grid{display:grid;gap:48px;padding-block:48px 64px}
-@media (min-width:980px){.hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);align-items:center;padding-block:64px 96px;min-height:min(78vh,760px)}}
+@media (min-width:980px){.hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,.95fr);align-items:center;padding-block:64px 96px;min-height:min(78vh,760px)}}
 .hero h1{font-size:clamp(48px,7.6vw,96px);line-height:1;font-weight:700;letter-spacing:-.03em;margin-top:20px}
 .hero .lede{font-size:clamp(18px,1.6vw,20px);line-height:1.5;max-width:34em;margin-top:24px}
 .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
@@ -163,27 +163,37 @@ a,button,summary{-webkit-tap-highlight-color:transparent}
 .facts li{display:flex;align-items:baseline;gap:8px}
 .facts b{font-family:var(--f-display);font-weight:600;font-size:22px;font-variant-numeric:tabular-nums}
 
-/* mural: trabalhos reais colados como cartazes */
-.wall{position:relative;height:clamp(420px,46vw,600px)}
-.poster{position:absolute;margin:0;border-radius:var(--r-md);overflow:hidden;background:var(--hero-soft);box-shadow:0 18px 40px rgba(0,0,0,.18),0 2px 6px rgba(0,0,0,.12);transform:rotate(var(--r,0deg));transition:transform .28s var(--ease),box-shadow .28s var(--ease);cursor:zoom-in;border:0;padding:0;display:block}
-.poster img{width:100%;height:100%;object-fit:cover;display:block}
-.poster .tape{position:absolute;top:-6px;left:50%;width:64px;height:20px;margin-left:-32px;background:rgba(255,244,214,.75);transform:rotate(-3deg);border-radius:3px}
-.poster .tag{position:absolute;left:12px;bottom:12px;background:#141414;color:#FFF4D6;font-size:13px;font-weight:600;padding:6px 12px;border-radius:var(--r-pill);opacity:0;transform:translateY(6px);transition:opacity .2s var(--ease),transform .2s var(--ease)}
-@media (hover:hover) and (pointer:fine){
-  .poster:hover,.poster:focus-visible{transform:rotate(0deg) translateY(-8px);box-shadow:0 28px 56px rgba(0,0,0,.24),0 2px 6px rgba(0,0,0,.12);z-index:9}
-  .poster:hover .tag,.poster:focus-visible .tag{opacity:1;transform:none}
-}
-.p1{--r:-4deg;left:0;top:6%;width:52%;aspect-ratio:3/2;z-index:3}
-.p2{--r:3deg;right:2%;top:0;width:40%;aspect-ratio:1/1;z-index:2}
-.p3{--r:2deg;left:8%;bottom:4%;width:44%;aspect-ratio:3/2;z-index:4}
-.p4{--r:-3deg;right:0;bottom:10%;width:50%;aspect-ratio:3/2;z-index:5}
-.p5{--r:6deg;left:40%;top:36%;width:26%;aspect-ratio:1/1;z-index:6}
-@media (max-width:979px){
-  .wall{height:auto;display:grid;grid-auto-flow:column;grid-auto-columns:64%;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:12px 4px 20px;margin-inline:-4px;scrollbar-width:none}
-  .wall::-webkit-scrollbar{display:none}
-  .poster{position:relative;inset:auto;width:auto;aspect-ratio:4/5;scroll-snap-align:start}
-  .poster .tag{opacity:1;transform:none}
-}
+/* sala de afinação: o queijo amadurece conforme a pessoa arrasta a Barra */
+.cave{position:relative;background:#1B1916;color:#FFF4D6;border-radius:var(--r-lg);padding:24px;display:grid;gap:16px;box-shadow:0 24px 60px rgba(0,0,0,.22);border:1px solid rgba(255,244,214,.08)}
+@media (min-width:600px){.cave{padding:28px}}
+.cave-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:14px}
+.cave-top b{font-weight:600}
+.cave-top span{color:#B8AF98;font-variant-numeric:tabular-nums}
+.shelf{position:relative;aspect-ratio:1162/817;margin-inline:auto;width:min(100%,420px)}
+.shelf::after{content:"";position:absolute;left:-8%;right:-8%;bottom:2%;height:14px;border-radius:4px;background:linear-gradient(#6B4A2B,#4A3220);box-shadow:0 10px 18px rgba(0,0,0,.45)}
+.shelf::before{content:"";position:absolute;left:10%;right:10%;bottom:4%;height:10%;border-radius:50%;background:rgba(0,0,0,.55);filter:blur(10px)}
+.shelf img{position:absolute;inset:0 0 3.5% 0;width:100%;height:auto;z-index:1;transition:opacity .2s linear}
+.readout{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px}
+.readout b{font-family:var(--f-display);font-weight:600;font-size:clamp(28px,3vw,36px);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.readout span{font-size:16px;color:#F5BF00;font-weight:600}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:14px}
+.steps li{display:grid;grid-template-columns:20px 1fr auto;gap:10px;align-items:center;color:#7F786B;transition:color .2s var(--ease)}
+.steps li::before{content:"";width:12px;height:12px;border-radius:50%;border:1.5px solid currentColor;justify-self:center;transition:background-color .2s var(--ease),border-color .2s var(--ease)}
+.steps li small{font-size:13px;font-variant-numeric:tabular-nums}
+.steps li.done{color:#B8AF98}.steps li.done::before{background:#B8AF98;border-color:#B8AF98}
+.steps li.now{color:#FFF4D6}.steps li.now::before{background:#F5BF00;border-color:#F5BF00}
+.dial{display:grid;gap:8px}
+.dial label{font-size:14px;color:#B8AF98}
+.dial-row{display:flex;justify-content:space-between;font-size:13px;color:#7F786B;font-variant-numeric:tabular-nums}
+input[type=range].barra{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:transparent;cursor:grab;margin:0}
+input[type=range].barra:active{cursor:grabbing}
+input[type=range].barra::-webkit-slider-runnable-track{height:28px;border-radius:999px;background:linear-gradient(90deg,#F5BF00 var(--p,100%),#3A362F var(--p,100%))}
+input[type=range].barra::-moz-range-track{height:28px;border-radius:999px;background:#3A362F}
+input[type=range].barra::-moz-range-progress{height:28px;border-radius:999px;background:#F5BF00}
+input[type=range].barra::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:4px;border-radius:50%;background:#1B1916;border:0;box-shadow:0 0 0 0 rgba(245,191,0,0);transition:box-shadow .16s var(--ease)}
+input[type=range].barra::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#1B1916;border:0}
+input[type=range].barra:focus-visible{outline:3px solid #F5BF00;outline-offset:4px;border-radius:999px}
+input[type=range].barra:hover::-webkit-slider-thumb{box-shadow:0 0 0 6px rgba(27,25,22,.25)}
 
 /* ---------- SEÇÕES ---------- */
 section{padding-block:80px}
@@ -506,7 +516,28 @@ footer{background:var(--band-bg);color:var(--band-fg)}
           <li><b>90</b> dias por ciclo de plano</li>
         </ul>
       </div>
-      <div class="wall" id="wall" aria-label="Trabalhos em destaque"></div>
+      <div class="cave" id="cave" aria-label="Sala de afinação">
+        <div class="cave-top"><b>Sala de afinação</b><span id="caveLote">Lote 001 · plano de 90 dias</span></div>
+        <div class="shelf">
+          <img src="assets/queijo-dia01.webp" alt="" width="1162" height="817" decoding="async" style="opacity:0">
+          <img src="assets/queijo-dia30.webp" alt="" width="1162" height="817" decoding="async" style="opacity:0">
+          <img src="assets/queijo-dia60.webp" alt="" width="1162" height="817" decoding="async" style="opacity:0">
+          <img src="assets/queijo-dia90.webp" alt="Roda de queijo curada, com uma fatia cortada" width="1162" height="817" fetchpriority="high" decoding="async">
+        </div>
+        <div class="readout" aria-live="polite"><b id="dayOut">Dia 90</b><span id="stageOut">No ponto</span></div>
+        <ul class="steps" id="steps">
+          <li data-a="1" data-b="7">Raio-X do perfil<small>dia 1 a 7</small></li>
+          <li data-a="8" data-b="14">Plano e linha editorial<small>dia 8 a 14</small></li>
+          <li data-a="8" data-b="21">Identidade e templates<small>dia 8 a 21</small></li>
+          <li data-a="15" data-b="90">Produção semanal<small>dia 15 a 90</small></li>
+          <li data-a="30" data-b="90" data-m="1">Relatório e ajuste<small>dia 30, 60 e 90</small></li>
+        </ul>
+        <div class="dial">
+          <label for="days">Arraste a barra e acompanhe a afinação da marca</label>
+          <input class="barra" type="range" id="days" min="1" max="90" step="1" value="90">
+          <div class="dial-row"><span>Dia 1</span><span>Dia 90</span></div>
+        </div>
+      </div>
     </div>
   </div>
 </header>
@@ -811,15 +842,33 @@ footer{background:var(--band-bg);color:var(--band-fg)}
   ];
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
 
-  var wall=document.getElementById('wall');
-  [[1,'p1'],[2,'p2'],[0,'p3'],[3,'p4'],[2,'p5']].slice(0,5).forEach(function(p,k){
-    var i=[0,1,4,7,2][k], w=WORKS[i];
-    var b=document.createElement('button'); b.type='button'; b.className='poster p'+(k+1);
-    b.setAttribute('aria-label','Ampliar: '+w.t+', '+w.d);
-    b.innerHTML='<img src="'+w.u+'" alt="" '+(k<2?'fetchpriority="high"':'loading="lazy"')+' decoding="async"><span class="tape" aria-hidden="true"></span><span class="tag">'+esc(w.t)+'</span>';
-    b.addEventListener('click',function(){ openLb(i, true); });
-    wall.appendChild(b);
-  });
+  /* ---------- sala de afinação ---------- */
+  var days=document.getElementById('days'), shelfImgs=document.querySelectorAll('.shelf img'), KEYS=[1,30,60,90];
+  var dayOut=document.getElementById('dayOut'), stageOut=document.getElementById('stageOut'), stepEls=document.querySelectorAll('#steps li');
+  function stageName(d){ return d<=15?'Fresco, começando o Raio-X':d<=45?'Meia-cura':d<=75?'Curado':'No ponto'; }
+  function setDay(d){
+    d=Math.round(d); days.value=d; days.style.setProperty('--p',((d-1)/89*100)+'%');
+    for(var k=0;k<4;k++){
+      var op=0;
+      if(k<3 && d>=KEYS[k] && d<=KEYS[k+1]) op=1-(d-KEYS[k])/(KEYS[k+1]-KEYS[k]);
+      if(k>0 && d>=KEYS[k-1] && d<=KEYS[k]) op=Math.max(op,(d-KEYS[k-1])/(KEYS[k]-KEYS[k-1]));
+      shelfImgs[k].style.opacity=op.toFixed(3);
+    }
+    dayOut.textContent='Dia '+d; stageOut.textContent=stageName(d);
+    [].forEach.call(stepEls,function(li){
+      var a=+li.dataset.a, b=+li.dataset.b, cls='';
+      if(li.dataset.m){ var near=[30,60,90].some(function(x){ return d>=x-3 && d<=x; }); cls = near ? 'now' : d>33 ? 'done' : ''; }
+      else cls = d>b ? 'done' : d>=a ? 'now' : '';
+      li.className=cls;
+    });
+  }
+  var touched=false;
+  days.addEventListener('input',function(){ touched=true; setDay(+days.value); });
+  setDay(90);
+  if(!reduce){
+    var t0=null; setDay(1);
+    setTimeout(function(){ requestAnimationFrame(function sweep(t){ if(touched) return; if(!t0) t0=t; var p=Math.min((t-t0)/2600,1); var e=1-Math.pow(1-p,3); setDay(1+89*e); if(p<1) requestAnimationFrame(sweep); }); },600);
+  }
 
   var pfGrid=document.getElementById('pfGrid'), pfF=document.getElementById('pfFilters'), cats=['Todos','Esporte','Eventos','Música','Marcas'];
   WORKS.forEach(function(w,i){
